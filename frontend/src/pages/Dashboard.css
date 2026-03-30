@@ -1,0 +1,244 @@
+.dashboard-container {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}
+
+.dashboard-sidebar {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  height: max-content;
+}
+
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.profile-img {
+  width: 100px;
+  height: 100px;
+  border-radius: var(--radius-full);
+  border: 3px solid var(--primary-light);
+  object-fit: cover;
+}
+
+.profile-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-top: 0.5rem;
+}
+
+.profile-blood {
+  color: var(--primary);
+  font-weight: 600;
+  background: var(--primary-light);
+  padding: 0.2rem 0.8rem;
+  border-radius: var(--radius-md);
+}
+
+.role-badge {
+  background: var(--text-main);
+  color: white;
+  margin-top: 0.5rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.stat-card {
+  background: var(--bg-main);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+.stat-card h4 {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.stat-val {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.badges-section h4 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.badges-list {
+  display: flex;
+  gap: 1rem;
+}
+
+.badge-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: var(--bg-main);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.dashboard-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.panel-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-main);
+}
+
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.notification-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--bg-main);
+  border-radius: var(--radius-md);
+  border-left: 4px solid transparent;
+}
+
+.notification-item.urgent {
+  border-left-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.notification-item.success {
+  border-left-color: #38a169;
+}
+
+.pulse-dot {
+  width: 12px;
+  height: 12px;
+  background-color: var(--primary);
+  border-radius: var(--radius-full);
+  margin-top: 4px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(230, 57, 70, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); }
+}
+
+.notif-content strong {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+  color: var(--text-main);
+}
+
+.notif-actions {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.appointment-card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.25rem;
+  background: var(--bg-main);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+
+.apt-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  min-width: 80px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.apt-date .month {
+  font-size: 0.85rem;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.apt-date .day {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1;
+}
+
+.apt-details h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+}
+
+.apt-details p {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.apt-time {
+  font-weight: 600;
+  color: var(--text-main) !important;
+  margin-top: 0.3rem;
+}
+
+.appointment-card .btn {
+  margin-left: auto;
+}
+
+@media (max-width: 900px) {
+  .dashboard-container {
+    grid-template-columns: 1fr;
+  }
+  .appointment-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .appointment-card .btn {
+    margin-left: 0;
+    width: 100%;
+  }
+}

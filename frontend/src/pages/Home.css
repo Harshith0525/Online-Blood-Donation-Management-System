@@ -1,0 +1,292 @@
+.home-page {
+  padding-bottom: 5rem;
+}
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(248,249,250,1) 0%, rgba(255,235,236,1) 100%);
+}
+
+.hero-bg-overlay {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background-image: url('https://images.unsplash.com/photo-1615461066841-6116e61058f4?q=80&w=2000&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.1;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-start;
+  padding: 4rem 1rem;
+}
+
+.hero-text {
+  max-width: 650px;
+}
+
+.badge-pill {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  background-color: var(--primary-light);
+  color: var(--primary);
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border: 1px solid rgba(230, 57, 70, 0.2);
+}
+
+.hero-title {
+  font-size: 4rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 1.5rem;
+  letter-spacing: -1.5px;
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 4rem;
+}
+
+.btn-lg {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+}
+
+.btn-white {
+  background-color: white;
+  color: var(--text-main);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.btn-white:hover {
+  background-color: var(--bg-main);
+  border-color: var(--primary);
+}
+
+.hero-stats {
+  display: flex;
+  gap: 3rem;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  padding-top: 2rem;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-num {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 0.2rem;
+}
+.stat-item p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Highlights Section */
+.highlights-section {
+  margin-top: -3rem;
+  position: relative;
+  z-index: 10;
+}
+
+.achievement-card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: linear-gradient(to right, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+  border-left: 5px solid var(--primary);
+  margin-bottom: 4rem;
+}
+
+.achievement-icon {
+  background: var(--primary-light);
+  padding: 1rem;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.achievement-text h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-main);
+}
+.achievement-text p {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.icon-main {
+  color: var(--primary);
+}
+
+.news-and-donors {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3rem;
+}
+
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.news-card {
+  display: flex;
+  gap: 1.5rem;
+  background: white;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  border: 1px solid var(--border);
+}
+
+.news-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.news-img {
+  width: 200px;
+  height: 140px;
+  object-fit: cover;
+}
+
+.news-info {
+  padding: 1.5rem 1.5rem 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.news-date {
+  font-size: 0.85rem;
+  color: var(--primary);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.news-info h4 {
+  font-size: 1.2rem;
+  line-height: 1.4;
+  color: var(--text-main);
+}
+
+.donor-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.donor-card {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  gap: 1rem;
+  cursor: pointer;
+}
+
+.donor-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  border: 2px solid var(--primary-light);
+}
+
+.donor-details h4 {
+  font-size: 1.05rem;
+  margin-bottom: 0.2rem;
+}
+
+.blood-group {
+  font-size: 0.85rem;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.donor-points {
+  margin-left: auto;
+  background: #f1f5f9;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+.donor-points span {
+  color: var(--primary);
+}
+
+@media (max-width: 900px) {
+  .news-and-donors {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.8rem;
+  }
+  .hero-actions {
+    flex-direction: column;
+  }
+  .news-card {
+    flex-direction: column;
+  }
+  .news-img {
+    width: 100%;
+    height: 200px;
+  }
+  .news-info {
+    padding: 1.5rem;
+  }
+}

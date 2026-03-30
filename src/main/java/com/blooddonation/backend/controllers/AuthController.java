@@ -31,8 +31,6 @@ public class AuthController {
                 response.put("email", user.getEmail());
                 response.put("role", user.getRole());
                 response.put("name", user.getName());
-                response.put("bloodGroup", user.getBloodGroup());
-                response.put("points", user.getPoints());
                 return ResponseEntity.ok(response);
             } else {
                 return ResponseEntity.badRequest().body("Error: Invalid credentials!");

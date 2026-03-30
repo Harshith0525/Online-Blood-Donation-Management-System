@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api';
+// Point to your live Render backend for production, but allow local overrides via .env
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'https://online-blood-donation-management-system-1.onrender.com/api';
 
 const api = axios.create({
   baseURL: API_URL,

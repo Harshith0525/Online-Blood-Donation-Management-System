@@ -16,8 +16,7 @@ public class WebSecurityConfig {
         http.cors().and().csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/**").permitAll() // Open for prototype/MVP phase
+                .requestMatchers("/**").permitAll() // Open for prototype/MVP phase/Render Health Checks
                 .anyRequest().authenticated()
             );
         

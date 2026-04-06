@@ -10,4 +10,6 @@ import java.util.List;
 public interface BloodRequestRepository extends MongoRepository<BloodRequest, String> {
     List<BloodRequest> findByRequesterId(String requesterId);
     List<BloodRequest> findByStatus(String status);
+    List<BloodRequest> findByBloodGroupNeededAndStatus(String bloodGroup, String status);
+    List<BloodRequest> findByRequesterIdAndStatus(String requesterId, String status);
 }

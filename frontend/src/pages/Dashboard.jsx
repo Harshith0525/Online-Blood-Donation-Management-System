@@ -1,11 +1,42 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Heart, Activity, Award, Bell, MapPin, Calendar, CheckCircle } from 'lucide-react';
-import { authService } from '../services/api';
+import { authService, requestService } from '../services/api';
 import './Dashboard.css';
+import { toast } from 'react-toastify';
 
 const Dashboard = () => {
   const user = authService.getCurrentUser() || {};
+  const [notifications, setNotifications] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        if (user.id) {
+          const data = await requestService.getNotifications(user.id, user.bloodGroup || 'O+');
+          setNotifications(data);
+        }
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchNotifications();
+  }, [user.id, user.bloodGroup]);
+
+  const handleInterest = async (requestId) => {
+    try {
+      await requestService.updateStatus(requestId, 'ACCEPTED');
+      toast.success('Interest registered! The requester will be notified.');
+      setNotifications(notifications.filter(n => n.id !== requestId));
+    } catch (error) {
+      toast.error('Failed to register interest.');
+    }
+  };
+
   return (
     <div className="dashboard-container container">
       <div className="dashboard-sidebar">
@@ -42,24 +73,37 @@ const Dashboard = () => {
         <div className="notifications-panel glass-card">
           <h3 className="panel-title"><Bell size={20} /> Urgent Notifications</h3>
           <div className="notification-list">
-            <div className="notification-item urgent">
-              <span className="pulse-dot"></span>
-              <div className="notif-content">
-                <strong>O+ Blood Needed Urgently!</strong>
-                <p>Apollo Hospital is 2km away and looking for O+ donors for an emergency surgery.</p>
-                <div className="notif-actions">
-                  <button className="btn btn-primary btn-sm">I'm Interested</button>
-                  <button className="btn btn-secondary btn-sm">Not Now</button>
+            {isLoading ? (
+              <div className="text-center p-3">Loading notifications...</div>
+            ) : notifications.length > 0 ? (
+              notifications.map((notif) => (
+                <div key={notif.id} className={`notification-item ${notif.status === 'ACCEPTED' ? 'success' : 'urgent'}`}>
+                  {notif.status === 'ACCEPTED' ? (
+                    <CheckCircle size={20} color="green" />
+                  ) : (
+                    <span className="pulse-dot"></span>
+                  )}
+                  <div className="notif-content">
+                    <strong>{notif.status === 'ACCEPTED' ? 'Request Accepted' : `${notif.bloodGroupNeeded} Blood Needed Urgently!`}</strong>
+                    <p>
+                      {notif.status === 'ACCEPTED' 
+                        ? `A donor has accepted your request for ${notif.patientName}. Check your chat to coordinate.`
+                        : `${notif.hospital?.name || 'A nearby hospital'} is looking for ${notif.bloodGroupNeeded} donors for ${notif.reason || 'emergency surgery'}.`}
+                    </p>
+                    {notif.status === 'PENDING' && (
+                      <div className="notif-actions">
+                        <button className="btn btn-primary btn-sm" onClick={() => handleInterest(notif.id)}>I'm Interested</button>
+                        <button className="btn btn-secondary btn-sm">Not Now</button>
+                      </div>
+                    )}
+                  </div>
                 </div>
+              ))
+            ) : (
+              <div className="no-notif-msg text-center p-4 text-muted">
+                No urgent notifications at the moment.
               </div>
-            </div>
-            <div className="notification-item success">
-              <CheckCircle size={20} color="green" />
-              <div className="notif-content">
-                <strong>Request Accepted</strong>
-                <p>David Chen has accepted your blood request. Check your chat to coordinate.</p>
-              </div>
-            </div>
+            )}
           </div>
         </div>
 

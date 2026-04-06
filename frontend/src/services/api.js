@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Point to your live Render backend for production, but allow local overrides via .env
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'https://online-blood-donation-management-system-1.onrender.com/api';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -48,7 +48,26 @@ export const requestService = {
   create: async (data) => {
     const response = await api.post('/requests', data);
     return response.data;
+  },
+  getNotifications: async (donorId, bloodGroup) => {
+    const response = await api.get(`/requests/notifications/${donorId}/${bloodGroup}`);
+    return response.data;
+  },
+  updateStatus: async (requestId, status) => {
+    const response = await api.put(`/requests/${requestId}/status`, status);
+    return response.data;
   }
 };
-
+ 
+export const appointmentService = {
+  create: async (data) => {
+    const response = await api.post('/appointments', data);
+    return response.data;
+  },
+  getForDonor: async (donorId) => {
+    const response = await api.get(`/appointments/donor/${donorId}`);
+    return response.data;
+  }
+};
+ 
 export default api;

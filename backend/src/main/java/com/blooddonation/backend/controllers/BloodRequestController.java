@@ -32,6 +32,18 @@ public class BloodRequestController {
         return bloodRequestRepository.save(request);
     }
 
+    @GetMapping("/notifications/{donorId}/{bloodGroup}")
+    public List<BloodRequest> getNotifications(@PathVariable String donorId, @PathVariable String bloodGroup) {
+        // Return "PENDING" requests matching the donor's blood group
+        List<BloodRequest> pendingMatching = bloodRequestRepository.findByBloodGroupNeededAndStatus(bloodGroup, "PENDING");
+        
+        // Return "ACCEPTED" requests where the user is the requester
+        List<BloodRequest> acceptedForMe = bloodRequestRepository.findByRequesterIdAndStatus(donorId, "ACCEPTED");
+        
+        pendingMatching.addAll(acceptedForMe);
+        return pendingMatching;
+    }
+
     @PutMapping("/{id}/status")
     public ResponseEntity<BloodRequest> updateRequestStatus(@PathVariable String id, @RequestBody String status) {
         return bloodRequestRepository.findById(id).map(req -> {

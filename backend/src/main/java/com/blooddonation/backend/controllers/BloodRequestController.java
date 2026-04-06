@@ -33,7 +33,7 @@ public class BloodRequestController {
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<BloodRequest> updateRequestStatus(@PathVariable Long id, @RequestBody String status) {
+    public ResponseEntity<BloodRequest> updateRequestStatus(@PathVariable String id, @RequestBody String status) {
         return bloodRequestRepository.findById(id).map(req -> {
             req.setStatus(status.replace("\"", ""));
             return ResponseEntity.ok(bloodRequestRepository.save(req));

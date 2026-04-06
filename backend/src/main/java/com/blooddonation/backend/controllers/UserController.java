@@ -24,14 +24,14 @@ public class UserController {
     private BadgeRepository badgeRepository;
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserProfile(@PathVariable Long id) {
+    public ResponseEntity<User> getUserProfile(@PathVariable String id) {
         return userRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-
+ 
     @GetMapping("/{id}/gamification")
-    public ResponseEntity<?> getUserGamificationData(@PathVariable Long id) {
+    public ResponseEntity<?> getUserGamificationData(@PathVariable String id) {
         return userRepository.findById(id).map(user -> {
             List<Badge> badges = badgeRepository.findByUserId(id);
             Map<String, Object> data = new HashMap<>();
@@ -40,9 +40,9 @@ public class UserController {
             return ResponseEntity.ok(data);
         }).orElse(ResponseEntity.notFound().build());
     }
-
+ 
     @PostMapping("/{id}/points/{points}")
-    public ResponseEntity<User> awardPoints(@PathVariable Long id, @PathVariable Integer points) {
+    public ResponseEntity<User> awardPoints(@PathVariable String id, @PathVariable Integer points) {
         return userRepository.findById(id).map(user -> {
             user.setPoints(user.getPoints() + points);
             return ResponseEntity.ok(userRepository.save(user));

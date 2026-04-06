@@ -16,7 +16,7 @@ public class DonationAppointmentController {
     private DonationAppointmentRepository repository;
 
     @GetMapping("/donor/{donorId}")
-    public List<DonationAppointment> getAppointmentsByDonor(@PathVariable Long donorId) {
+    public List<DonationAppointment> getAppointmentsByDonor(@PathVariable String donorId) {
         return repository.findByDonorId(donorId);
     }
 

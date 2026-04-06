@@ -1,0 +1,20 @@
+Open a new Command Prompt.
+Navigate to the project root directory (if you aren't already there):
+cmd
+cd c:\Users\ASUS\Desktop\BloodDonationProject
+Run the following command to start the Spring Boot server:
+cmdS
+mvnw.cmd spring-boot:run
+
+Note: This will start the backend API on http://localhost:8080 and uses an in-memory H2 database, so no extra database setup is required.
+2. Run the Frontend (React + Vite)
+Open a second Command Prompt window.
+Navigate to the frontend folder:
+cmd
+cd c:\Users\ASUS\Desktop\BloodDonationProject\frontend
+Run the following command to start the development server:
+cmd
+
+npm run dev
+
+Note: If this is your first time running the project, you might need to run npm install first to install dependencies.

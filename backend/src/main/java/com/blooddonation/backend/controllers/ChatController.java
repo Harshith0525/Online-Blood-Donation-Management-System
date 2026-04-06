@@ -16,7 +16,7 @@ public class ChatController {
     private ChatMessageRepository chatMessageRepository;
 
     @GetMapping("/history/{userId1}/{userId2}")
-    public List<ChatMessage> getChatHistory(@PathVariable Long userId1, @PathVariable Long userId2) {
+    public List<ChatMessage> getChatHistory(@PathVariable String userId1, @PathVariable String userId2) {
         return chatMessageRepository.findBySenderIdAndReceiverIdOrReceiverIdAndSenderIdOrderBySentAtAsc(
                 userId1, userId2, userId1, userId2);
     }

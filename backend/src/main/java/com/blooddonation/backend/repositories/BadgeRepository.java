@@ -1,12 +1,12 @@
 package com.blooddonation.backend.repositories;
-
+ 
 import com.blooddonation.backend.models.Badge;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
-
+ 
 import java.util.List;
-
+ 
 @Repository
-public interface BadgeRepository extends JpaRepository<Badge, Long> {
-    List<Badge> findByUserId(Long userId);
+public interface BadgeRepository extends MongoRepository<Badge, String> {
+    List<Badge> findByUserId(String userId);
 }

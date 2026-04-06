@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: blood-donation-backend
+    env: docker
+    dockerContext: backend
+    dockerfilePath: backend/Dockerfile
+    plan: free
+    envVars:
+      - key: SPRING_DATA_MONGODB_URI
+        sync: false # Set in Render Dashboard
+      - key: APP_JWT_SECRET
+        generateValue: true
+      - key: SERVER_PORT
+        value: 8080

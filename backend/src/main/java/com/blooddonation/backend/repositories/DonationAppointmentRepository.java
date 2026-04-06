@@ -1,13 +1,13 @@
 package com.blooddonation.backend.repositories;
-
+ 
 import com.blooddonation.backend.models.DonationAppointment;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
-
+ 
 import java.util.List;
-
+ 
 @Repository
-public interface DonationAppointmentRepository extends JpaRepository<DonationAppointment, Long> {
-    List<DonationAppointment> findByDonorId(Long donorId);
-    List<DonationAppointment> findByHospitalId(Long hospitalId);
+public interface DonationAppointmentRepository extends MongoRepository<DonationAppointment, String> {
+    List<DonationAppointment> findByDonorId(String donorId);
+    List<DonationAppointment> findByHospitalId(String hospitalId);
 }

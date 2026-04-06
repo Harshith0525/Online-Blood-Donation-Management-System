@@ -1,43 +1,40 @@
 package com.blooddonation.backend.models;
-
-import jakarta.persistence.*;
+ 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+ 
 import java.time.LocalDateTime;
-
-@Entity
-@Table(name = "blood_requests")
+ 
+@Document(collection = "blood_requests")
 @Data
 @NoArgsConstructor
 public class BloodRequest {
-
+ 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "requester_id", nullable = false)
+    private String id;
+ 
+    @DBRef
     private User requester;
-
-    @Column(nullable = false)
+ 
     private String patientName;
-
+ 
     private Integer age;
-
-    @Column(nullable = false)
+ 
     private String bloodGroupNeeded;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "hospital_id")
+ 
+    @DBRef
     private Hospital hospital;
-
+ 
     private String doctorName;
-
+ 
     private String reason;
-
+ 
     private String status; // "PENDING", "ACCEPTED", "FULFILLED"
-
-    @Column(name = "created_at", updatable = false)
+ 
+    @Field("created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 }

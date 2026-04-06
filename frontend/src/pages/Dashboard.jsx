@@ -1,31 +1,37 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Heart, Activity, Award, Bell, MapPin, Calendar, CheckCircle } from 'lucide-react';
-import { authService, requestService } from '../services/api';
+import { authService, requestService, appointmentService } from '../services/api';
 import './Dashboard.css';
 import { toast } from 'react-toastify';
 
 const Dashboard = () => {
   const user = authService.getCurrentUser() || {};
   const [notifications, setNotifications] = React.useState([]);
+  const [appointments, setAppointments] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [rescheduleData, setRescheduleData] = React.useState({ id: null, dateTime: '' });
 
   React.useEffect(() => {
-    const fetchNotifications = async () => {
+    const fetchData = async () => {
       try {
         if (user.id) {
-          const data = await requestService.getNotifications(user.id, user.bloodGroup || 'O+');
-          setNotifications(data);
+          const [notifs, apts] = await Promise.all([
+            requestService.getNotifications(user.id, user.bloodGroup || 'O+'),
+            appointmentService.getForDonor(user.id)
+          ]);
+          setNotifications(notifs);
+          setAppointments(apts);
         }
       } catch (error) {
-        console.error('Error fetching notifications:', error);
+        console.error('Error fetching dashboard data:', error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchNotifications();
-  }, [user.id, user.bloodGroup]);
+    fetchData();
+  }, [user.id]);
 
   const handleInterest = async (requestId) => {
     try {
@@ -35,6 +41,30 @@ const Dashboard = () => {
     } catch (error) {
       toast.error('Failed to register interest.');
     }
+  };
+
+  const handleReschedule = async (appointmentId) => {
+    if (!rescheduleData.dateTime) {
+      toast.warn('Please select a new date and time.');
+      return;
+    }
+    try {
+      const updated = await appointmentService.update(appointmentId, { appointmentTime: rescheduleData.dateTime });
+      setAppointments(appointments.map(a => a.id === appointmentId ? updated : a));
+      setRescheduleData({ id: null, dateTime: '' });
+      toast.success('Appointment rescheduled successfully!');
+    } catch (error) {
+      toast.error('Failed to reschedule appointment.');
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const d = new Date(dateString);
+    return {
+      month: d.toLocaleString('default', { month: 'short' }).toUpperCase(),
+      day: d.getDate(),
+      time: d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
   };
 
   return (
@@ -109,17 +139,54 @@ const Dashboard = () => {
 
         <div className="history-panel glass-card mt-4">
           <h3 className="panel-title"><Calendar size={20} /> Upcoming Appointments</h3>
-          <div className="appointment-card">
-            <div className="apt-date">
-              <span className="month">MAR</span>
-              <span className="day">15</span>
-            </div>
-            <div className="apt-details">
-              <h4>Blood Donation Appointment</h4>
-              <p><MapPin size={16} /> Max Super Speciality Hospital (4.5 <Heart fill="gold" stroke="none" size={14}/>)</p>
-              <p className="apt-time">10:00 AM - 11:00 AM</p>
-            </div>
-            <button className="btn btn-secondary">Reschedule</button>
+          <div className="appointment-list">
+            {isLoading ? (
+              <div className="text-center p-3">Loading appointments...</div>
+            ) : appointments.length > 0 ? (
+              appointments.map((apt) => {
+                const { month, day, time } = formatDate(apt.appointmentTime);
+                return (
+                  <div key={apt.id} className="appointment-card">
+                    <div className="apt-date">
+                      <span className="month">{month}</span>
+                      <span className="day">{day}</span>
+                    </div>
+                    <div className="apt-details">
+                      <h4>Blood Donation Appointment</h4>
+                      <p><MapPin size={16} /> {apt.hospital?.name || 'Assigned Hospital'}</p>
+                      {rescheduleData.id === apt.id ? (
+                        <div className="reschedule-controls mt-2">
+                          <input 
+                            type="datetime-local" 
+                            className="form-control form-control-sm"
+                            value={rescheduleData.dateTime}
+                            onChange={(e) => setRescheduleData({ ...rescheduleData, dateTime: e.target.value })}
+                          />
+                          <div className="mt-2 d-flex gap-2">
+                            <button className="btn btn-primary btn-sm" onClick={() => handleReschedule(apt.id)}>Save</button>
+                            <button className="btn btn-secondary btn-sm" onClick={() => setRescheduleData({ id: null, dateTime: '' })}>Cancel</button>
+                          </div>
+                        </div>
+                      ) : (
+                        <p className="apt-time">{time}</p>
+                      )}
+                    </div>
+                    {rescheduleData.id !== apt.id && (
+                      <button 
+                        className="btn btn-secondary" 
+                        onClick={() => setRescheduleData({ id: apt.id, dateTime: apt.appointmentTime.split('.')[0] })}
+                      >
+                        Reschedule
+                      </button>
+                    )}
+                  </div>
+                );
+              })
+            ) : (
+              <div className="no-apt-msg text-center p-4 text-muted">
+                No upcoming appointments.
+              </div>
+            )}
           </div>
         </div>
       </div>

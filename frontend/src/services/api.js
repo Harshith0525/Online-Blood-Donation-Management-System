@@ -67,6 +67,10 @@ export const appointmentService = {
   getForDonor: async (donorId) => {
     const response = await api.get(`/appointments/donor/${donorId}`);
     return response.data;
+  },
+  update: async (id, data) => {
+    const response = await api.put(`/appointments/${id}`, data);
+    return response.data;
   }
 };
  

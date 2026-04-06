@@ -25,4 +25,12 @@ public class DonationAppointmentController {
         appointment.setStatus("SCHEDULED");
         return repository.save(appointment);
     }
+
+    @PutMapping("/{id}")
+    public DonationAppointment updateAppointment(@PathVariable String id, @RequestBody DonationAppointment updatedData) {
+        return repository.findById(id).map(appointment -> {
+            appointment.setAppointmentTime(updatedData.getAppointmentTime());
+            return repository.save(appointment);
+        }).orElseThrow(() -> new RuntimeException("Appointment not found"));
+    }
 }
